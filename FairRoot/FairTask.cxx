@@ -22,7 +22,14 @@ FairTask::FairTask(const char* name, Int_t iVerbose)
 
 }
 
-FairTask::~FairTask() { }
+FairTask::~FairTask() {
+cout<<"FairTask end here"<<endl;
+}
+
+void FairTask::DeleteTasks()
+{
+
+}
 
 void FairTask::FinishEvent()
 {

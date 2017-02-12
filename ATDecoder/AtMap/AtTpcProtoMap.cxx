@@ -18,15 +18,25 @@
 
 AtTpcProtoMap::AtTpcProtoMap()
 {
-
+    hProto = NULL;
+    cATTPCPlane = NULL;
+    InProtoMap = NULL;
+    f = NULL;
 Initialize();
 
 }
 
 AtTpcProtoMap::~AtTpcProtoMap()
 {
+    std::cout<<"AtTpcProtoMap end here 1"<<std::endl;
     if(hProto) delete hProto;
+    std::cout<<"AtTpcProtoMap end here 2"<<std::endl;
     if(InProtoMap) delete InProtoMap;
+    std::cout<<"AtTpcProtoMap end here 3"<<std::endl;
+    if(f) delete f;
+    std::cout<<"AtTpcProtoMap end here 4"<<std::endl;
+    if(cATTPCPlane) delete cATTPCPlane;
+    std::cout<<"AtTpcProtoMap end here 5"<<std::endl;
 }
 
 void AtTpcProtoMap::Initialize()

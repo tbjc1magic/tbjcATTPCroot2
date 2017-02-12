@@ -57,11 +57,16 @@ ATCore2::ATCore2(TString filename, Int_t numTbs, Int_t windowNumTbs, Int_t windo
 
 ATCore2::~ATCore2()
 {
-
-    for(int i=0; i<10;i++)
+    std::cout<<"end if here ATCore2 1"<<std::endl;
+    delete fPadArray;
+    std::cout<<"end if here ATCore2 2"<<std::endl;
+    for(int i=0; i<1;i++)
         if(fDecoderPtr[i]) delete fDecoderPtr[i];
+    std::cout<<"end if here ATCore2 3"<<std::endl;
     delete fAtMapPtr;
-
+    std::cout<<"end if here ATCore2 4"<<std::endl;
+    delete fRawEventPtr;
+    std::cout<<"end if here ATCore2 5"<<std::endl;
 }
 
 void ATCore2::Initialize()
@@ -223,46 +228,6 @@ Bool_t ATCore2::SetInhibitMaps(TString inimap, TString lowgmap, TString xtalkmap
     fXtalkMap = xtalkmap;
     return kTRUE;
 }
-
-/*Bool_t STCore::SetGainCalibrationData(TString filename, TString dataType)
-  {
-  fIsGainCalibrationData = fGainCalibrationPtr -> SetGainCalibrationData(filename, dataType);
-
-  std::cout << "== [STCore] Gain calibration data is set!" << std::endl;
-  return fIsGainCalibrationData;
-  }*/
-
-/*void STCore::SetGainReference(Int_t row, Int_t layer)
-  {
-  if (!fIsGainCalibrationData) {
-  std::cout << "== [STCore] Set gain calibration data first!" << std::endl;
-
-  return;
-  }
-
-  fGainCalibrationPtr -> SetGainReference(row, layer);
-  }*/
-
-/*void STCore::SetGainReference(Double_t constant, Double_t linear, Double_t quadratic)
-  {
-  if (!fIsGainCalibrationData) {
-  std::cout << "== [STCore] Set gain calibration data first!" << std::endl;
-
-  return;
-  }
-
-  fGainCalibrationPtr -> SetGainReference(constant, linear, quadratic);
-  }*/
-
-/*Bool_t STCore::SetUAMap(TString filename)
-  {
-  return fMapPtr -> SetUAMap(filename);
-  }*/
-
-/*Bool_t STCore::SetAGETMap(TString filename)
-  {
-  return fMapPtr -> SetAGETMap(filename);
-  }*/
 
 void ATCore2::ProcessCobo(Int_t coboIdx)
 {
@@ -586,8 +551,7 @@ void ATCore2::ProcessBasicFrame(GETBasicFrame *basicFrame)
 
                 for (Int_t iTb = 0; iTb < fNumTbs; iTb++)
                 {
-                    if(PadRefNum==0)
-                    cout<<iTb<<":"<<rawadc[iTb]<<":"<<adc[iTb]<<endl;
+                  //  if(PadRefNum==0)cout<<iTb<<":"<<rawadc[iTb]<<":"<<adc[iTb]<<endl;
                     pad -> SetADC(iTb, adc[iTb]);
                 }
                 pad -> SetPedestalSubtracted(kTRUE);

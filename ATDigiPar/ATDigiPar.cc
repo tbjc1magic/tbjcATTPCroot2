@@ -13,6 +13,7 @@ ATDigiPar::ATDigiPar()
 
 ATDigiPar::~ATDigiPar()
 {
+    std::cout<<"ATDigiPar end here"<<std::endl;
 }
 
 Int_t  ATDigiPar::GetPadPlaneX()        { return fPadPlaneX; }

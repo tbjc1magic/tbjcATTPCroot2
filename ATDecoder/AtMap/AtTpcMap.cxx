@@ -24,7 +24,7 @@ AtTpcMap::AtTpcMap():AtPadCoord(boost::extents[10240][3][2])
 
 AtTpcMap::~AtTpcMap()
 {
-
+    std::cout<<"AtTpcMap end here "<<std::endl;
   //delete cATTPCPlane;
   //delete hPlane;
 

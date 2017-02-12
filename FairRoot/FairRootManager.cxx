@@ -13,7 +13,13 @@ FairRootManager::FairRootManager()
     fgInstance = this;
 }
 FairRootManager::~FairRootManager()
-{}
+{
+    if(fOutFile)
+    {
+        fOutFile->Close();
+        delete fOutFile;
+    }
+}
 
 FairRootManager*FairRootManager::Instance()
 {

@@ -9,7 +9,6 @@
 
 #include "TObject.h"
 #include "TString.h"
-//#include "TClonesArray.h"
 
 #include "ATRawEvent.hh"
 #include "AtTpcMap.h"

@@ -30,6 +30,7 @@ class FairTask : public TTask
     void InitTask();
     void InitTasks();
 
+    virtual void DeleteTasks();
     virtual ~FairTask();
     virtual void FinishTask();
     virtual void FinishEvent();

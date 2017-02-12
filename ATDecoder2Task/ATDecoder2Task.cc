@@ -15,40 +15,46 @@
 
 ATDecoder2Task::ATDecoder2Task()
 {
-  fLogger = FairLogger::GetLogger();
+    fLogger = FairLogger::GetLogger();
 
-  fDecoder = NULL;
-  fDataNum = 0;
-  fOpt = 0;
+    fDecoder = NULL;
+    fDataNum = 0;
+    fOpt = 0;
 
-  fFPNPedestalRMS = -1;
+    fFPNPedestalRMS = -1;
 
-  fExternalNumTbs = kFALSE;
-  fNumTbs = 512;
+    fExternalNumTbs = kFALSE;
+    fNumTbs = 512;
 
-  //fUseGainCalibration = kFALSE;
-  //fGainCalibrationFile = "";
-  //fGainConstant = -9999;
-  //fGainLinear = -9999;
-  //fGainQuadratic = 0;
+    //fUseGainCalibration = kFALSE;
+    //fGainCalibrationFile = "";
+    //fGainConstant = -9999;
+    //fGainLinear = -9999;
+    //fGainQuadratic = 0;
 
-  fIsPersistence = kFALSE;
-  fIsPositive = kFALSE;
+    fIsPersistence = kFALSE;
+    fIsPositive = kFALSE;
 
-  fPar = NULL;
-  fRawEventArray = new tbjcClonesArray<ATRawEvent>(10);
-  fRawEvent = NULL;
+    fPar = NULL;
+    fRawEventArray = new tbjcClonesArray<ATRawEvent>(10);
+    fRawEvent = NULL;
 
-  fIsSeparatedData = kFALSE;
-  fIsPseudoTopology = kFALSE;
+    fIsSeparatedData = kFALSE;
+    fIsPseudoTopology = kFALSE;
 
-  fInternalID = 0;
+    fInternalID = 0;
 
-  fEventID = -1;
+    fEventID = -1;
 }
 
 ATDecoder2Task::~ATDecoder2Task()
 {
+
+    cout<<"ATDecoder2Task end here 1"<<endl;
+    delete fDecoder;
+    cout<<"ATDecoder2Task end here 2"<<endl;
+    delete fRawEventArray;
+    cout<<"ATDecoder2Task end here 3"<<endl;
 }
 
 void ATDecoder2Task::SetPersistence(Bool_t value)                                              { fIsPersistence = value; }
@@ -71,165 +77,130 @@ void ATDecoder2Task::SetInhibitMaps(TString inimap, TString lowgmap, TString xta
 
 Long64_t ATDecoder2Task::GetEventID() { return fEventIDLast; }
 
-InitStatus
+    InitStatus
 ATDecoder2Task::Init()
 {
-  FairRootManager *ioMan = FairRootManager::Instance();
-  if (ioMan == 0) {
-    fLogger -> Error(MESSAGE_ORIGIN, "Cannot find RootManager!");
+    FairRootManager *ioMan = FairRootManager::Instance();
+    if (ioMan == 0) {
+        fLogger -> Error(MESSAGE_ORIGIN, "Cannot find RootManager!");
 
-    return kERROR;
-  }
+        return kERROR;
+    }
 
-  ioMan -> Register("ATRawEvent", "ATTPC", fRawEventArray, fIsPersistence);
+    ioMan -> Register("ATRawEvent", "ATTPC", fRawEventArray, fIsPersistence);
 
-  fDecoder = new ATCore2(fOpt);
-  fDecoder -> SetUseSeparatedData(fIsSeparatedData);
-  fDecoder -> SetInhibitMaps(fIniMap,fLowgMap,fXtalkMap);
+    fDecoder = new ATCore2(fOpt);
+    fDecoder -> SetUseSeparatedData(fIsSeparatedData);
+    fDecoder -> SetInhibitMaps(fIniMap,fLowgMap,fXtalkMap);
 
-  for (Int_t iFile = 0; iFile < fDataList[0].size(); iFile++)
-    fDecoder -> AddData(fDataList[0].at(iFile));
+    for (Int_t iFile = 0; iFile < fDataList[0].size(); iFile++)
+        fDecoder -> AddData(fDataList[0].at(iFile));
 
-  if (fIsSeparatedData)
-    for (Int_t iCobo = 1; iCobo < 10; iCobo++)
-      for (Int_t iFile = 0; iFile < fDataList[iCobo].size(); iFile++)
-        fDecoder -> AddData(fDataList[iCobo].at(iFile), iCobo);
+    if (fIsSeparatedData)
+        for (Int_t iCobo = 1; iCobo < 10; iCobo++)
+            for (Int_t iFile = 0; iFile < fDataList[iCobo].size(); iFile++)
+                fDecoder -> AddData(fDataList[iCobo].at(iFile), iCobo);
 
-  if(fIsPseudoTopology) fDecoder-> SetPseudoTopologyFrame(0xF,kFALSE);
+    if(fIsPseudoTopology) fDecoder-> SetPseudoTopologyFrame(0xF,kFALSE);
 
-  fDecoder -> SetData(fDataNum);
+    fDecoder -> SetData(fDataNum);
 
-  if (fExternalNumTbs)
-    fDecoder -> SetNumTbs(fNumTbs);
-  else
-    fDecoder -> SetNumTbs(fPar -> GetNumTbs());
+    if (fExternalNumTbs)
+        fDecoder -> SetNumTbs(fNumTbs);
+    else
+        fDecoder -> SetNumTbs(fPar -> GetNumTbs());
 
-  if (fFPNPedestalRMS == -1)
-    //fFPNPedestalRMS = fPar -> GetFPNPedestalRMS();
-    fFPNPedestalRMS =5;
+    if (fFPNPedestalRMS == -1)
+        //fFPNPedestalRMS = fPar -> GetFPNPedestalRMS();
+        fFPNPedestalRMS =5;
 
-  fDecoder -> SetFPNPedestal(fFPNPedestalRMS);
+    fDecoder -> SetFPNPedestal(fFPNPedestalRMS);
 
-  Bool_t kMapIn = fDecoder -> SetATTPCMap(fMap);
-  //std::cout<<kMapIn<<std::endl;
-   if (!kMapIn) {
-      fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATTPC Map!");
+    Bool_t kMapIn = fDecoder -> SetATTPCMap(fMap);
+    //std::cout<<kMapIn<<std::endl;
+    if (!kMapIn) {
+        fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATTPC Map!");
 
-      return kERROR;
+        return kERROR;
     }
 
     if(fOpt==1){
-       fDecoder -> SetProtoGeoFile(fGeoFile);
-       fDecoder -> SetProtoMapFile(fProtoMapFile);
+        fDecoder -> SetProtoGeoFile(fGeoFile);
+        fDecoder -> SetProtoMapFile(fProtoMapFile);
     }
 
-/*  if (fGainCalibrationFile.EqualTo("") && fUseGainCalibration == kFALSE)
-    fLogger -> Info(MESSAGE_ORIGIN, "Gain not calibrated!");
-  else if (fGainCalibrationFile.EqualTo("") && fUseGainCalibration == kTRUE) {
-    Bool_t isSetGainCalibrationData = fDecoder -> SetGainCalibrationData(fPar -> GetGainCalibrationDataFileName());
-    if (!isSetGainCalibrationData) {
-      fLogger -> Error(MESSAGE_ORIGIN, "Cannot find gain calibration data file!");
-
-      return kERROR;
-    }*/
-  //  LOG(INFO) << fPar -> GetGainCalibrationDataFileName() << " " << fPar -> GetGCConstant() << " " << fPar -> GetGCLinear() << " " << fPar -> GetGCQuadratic() << FairLogger::endl;
-
-  /*  fDecoder -> SetGainReference(fPar -> GetGCConstant(), fPar -> GetGCLinear(), fPar -> GetGCQuadratic());
-    fLogger -> Info(MESSAGE_ORIGIN, "Gain calibration data is set from parameter list!");
-  } else {
-    Bool_t isSetGainCalibrationData = fDecoder -> SetGainCalibrationData(fGainCalibrationFile);
-    if (!isSetGainCalibrationData) {
-      fLogger -> Error(MESSAGE_ORIGIN, "Cannot find gain calibration data file!");
-
-      return kERROR;
-    }
-
-    if (fGainConstant == -9999 || fGainLinear == -9999) {
-      fLogger -> Error(MESSAGE_ORIGIN, "Cannot find gain calibration data file!");
-
-      return kERROR;
-    }
-
-    fDecoder -> SetGainReference(fGainConstant, fGainLinear, fGainQuadratic);
-    fLogger -> Info(MESSAGE_ORIGIN, "Gain calibration data is set!");
-  }*/
-
-  return kSUCCESS;
+    return kSUCCESS;
 }
 
-void
+    void
 ATDecoder2Task::SetParContainers()
 {
-  FairRun *run = FairRun::Instance();
-  if (!run)
-    fLogger -> Fatal(MESSAGE_ORIGIN, "No analysis run!");
+    FairRun *run = FairRun::Instance();
+    if (!run)
+        fLogger -> Fatal(MESSAGE_ORIGIN, "No analysis run!");
 
-  FairRuntimeDb *db = run -> GetRuntimeDb();
-  if (!db)
-    fLogger -> Fatal(MESSAGE_ORIGIN, "No runtime database!");
+    FairRuntimeDb *db = run -> GetRuntimeDb();
+    if (!db)
+        fLogger -> Fatal(MESSAGE_ORIGIN, "No runtime database!");
 
-  fPar = (ATDigiPar *) db -> getContainer("ATDigiPar");
-  if (!fPar)
-    fLogger -> Fatal(MESSAGE_ORIGIN, "Cannot find ATDigiPar!");
+    fPar = (ATDigiPar *) db -> getContainer("ATDigiPar");
+    if (!fPar)
+        fLogger -> Fatal(MESSAGE_ORIGIN, "Cannot find ATDigiPar!");
 }
 
-void
+    void
 ATDecoder2Task::Exec(Option_t *opt)
 {
-//#ifdef TASKTIMER
-//  STDebugLogger::Instance() -> TimerStart("DecoderTask");
-//#endif
-  fRawEventArray -> Clear("C");
+    fRawEventArray -> Clear("C");
 
-  if (fRawEvent == NULL)
-    fRawEvent = fDecoder -> GetRawEvent(fEventID++);
+    if (fRawEvent == NULL)
+        fRawEvent = fDecoder -> GetRawEvent(fEventID++);
     fInternalID++;
     if(fInternalID%100==0) std::cout<<" Event Number "<<fEventID<<" Internal ID : "<<fInternalID<<" Number of Pads : "<<fRawEvent->GetNumPads()<<std::endl;
 
     ATRawEvent* fEvent = new ATRawEvent(fRawEvent);
     fRawEventArray->Insert(0,fEvent);
 
- // new ((*fRawEventArray)[0]) ATRawEvent(fRawEvent);
-  ATPad* fPad = fEvent->GetPad(0);
-  Int_t * value = fPad->GetRawADC();
-  for(int i=0;i<512;i++)
-  {
-      std::cout<<i<<":"<<value[i]<<std::endl;
-  }
-      std::cout<<"Decoder Finished"<<std::endl;
-  fRawEvent = NULL;
-//#ifdef TASKTIMER
-//  STDebugLogger::Instance() -> TimerStop("DecoderTask");
-//#endif
+    // new ((*fRawEventArray)[0]) ATRawEvent(fRawEvent);
+    ATPad* fPad = fEvent->GetPad(0);
+    Int_t * value = fPad->GetRawADC();
+    for(int i=0;i<512;i++)
+    {
+        //    std::cout<<i<<":"<<value[i]<<std::endl;
+    }
+
+    std::cout<< fRawEventArray->GetEntriesFast()<<std::endl;
+    std::cout<<"Decoder Finished"<<std::endl;
+    fRawEvent = NULL;
 }
 
-Int_t
+    Int_t
 ATDecoder2Task::ReadEvent(Int_t eventID)
 {
-  fRawEventArray -> Clear("C");
+    fRawEventArray -> Clear("C");
 
-  fRawEvent = fDecoder -> GetRawEvent(eventID);
-  fEventIDLast = fDecoder -> GetEventID();
+    fRawEvent = fDecoder -> GetRawEvent(eventID);
+    fEventIDLast = fDecoder -> GetEventID();
 
-  if (fRawEvent == NULL)
-    return 1;
+    if (fRawEvent == NULL)
+        return 1;
 
     ATRawEvent* tmp = new ATRawEvent(fRawEvent);
     fRawEventArray->Insert(0,tmp);
 
-//  new ((*fRawEventArray)[0]) ATRawEvent(fRawEvent);
+    //  new ((*fRawEventArray)[0]) ATRawEvent(fRawEvent);
 
-  return 0;
+    return 0;
 }
 
-void
+    void
 ATDecoder2Task::FinishEvent()
 {
-  fRawEvent = fDecoder -> GetRawEvent();
+    fRawEvent = fDecoder -> GetRawEvent();
 
-  if (fRawEvent == NULL)
-  {
-    fLogger -> Info(MESSAGE_ORIGIN, "End of file. Terminating FairRun.");
-    FairRootManager::Instance() -> SetFinishRun();
-  }
+    if (fRawEvent == NULL)
+    {
+        fLogger -> Info(MESSAGE_ORIGIN, "End of file. Terminating FairRun.");
+        FairRootManager::Instance() -> SetFinishRun();
+    }
 }

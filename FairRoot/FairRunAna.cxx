@@ -49,6 +49,7 @@ FairRunAna::FairRunAna()
 FairRunAna::~FairRunAna()
 {
 
+    cout<<"FairRunAna end here"<<endl;
 }
 
 void  FairRunAna::SetGeomFile(const char* GeoFileName)
