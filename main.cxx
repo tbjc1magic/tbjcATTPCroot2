@@ -116,8 +116,8 @@ int test3()
     int * data = pad->GetRawADC();
 
  //   cout<<"here?"<<endl;
-    for(int i=0;i<512;i++)
-        cout<<i<<":"<<data[i]<<endl;
+ //   for(int i=0;i<512;i++)
+ //       cout<<i<<":"<<data[i]<<endl;
 
     cout<<"here?"<<endl;
     return 1;

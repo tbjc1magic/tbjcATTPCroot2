@@ -19,7 +19,7 @@ class tbjcClonesArray: public tbjcArray
         TObject* At(int idx);
         int GetLast();
         int GetEntriesFast();
-
+        void Insert(int idx, TObject*obj);
         void Print();
     private:
         vector<TObject*> fCont;
@@ -31,6 +31,17 @@ int tbjcClonesArray<T>::GetLast()
     for(int i=fCont.size()-1;i>0; i--)
         if(fCont[i]) return i;
     return -1;
+}
+    template<class T>
+void tbjcClonesArray<T>::Insert(int idx, TObject*obj)
+{
+    if(idx>=fCont.size())
+        fCont.resize(idx+1,NULL);
+
+    TObject*obj_old = fCont[idx];
+    if(obj_old) delete obj_old;
+
+    fCont[idx] = obj;
 }
 
     template<class T>

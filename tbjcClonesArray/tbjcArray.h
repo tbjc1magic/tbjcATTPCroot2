@@ -11,6 +11,7 @@ class tbjcArray
         virtual TObject* At(int idx)=0;
         virtual int GetLast()=0;
         virtual int GetEntriesFast()=0;
+        virtual void Insert(int idx, TObject*obj)=0;
 
         virtual void Print(){};
 };
