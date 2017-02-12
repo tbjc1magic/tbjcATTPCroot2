@@ -9,7 +9,7 @@
 
 #include "TObject.h"
 #include "TString.h"
-#include "TClonesArray.h"
+//#include "TClonesArray.h"
 
 #include "ATRawEvent.hh"
 #include "AtTpcMap.h"
@@ -105,7 +105,7 @@ class ATCore2 : public TObject {
     //Bool_t fIsGainCalibrationData;
 
     ATRawEvent *fRawEventPtr;
-    TClonesArray *fPadArray;
+    tbjcArray *fPadArray;
 
     Int_t fCurrentEventID[12];
     Int_t fTargetFrameID;
@@ -120,7 +120,6 @@ class ATCore2 : public TObject {
     Bool_t kEnableAuxChannel;
     std::vector<Int_t> fAuxChannels;
 
-  ClassDef(ATCore2, 1);
 };
 
 #endif

@@ -29,7 +29,6 @@ class ATEvent : public TNamed {
     //void SetTrackArray(vector<STTrack> &trackArray);
     void SetEventCharge(Double_t Qevent);
     void SetRhoVariance(Double_t RhoVariance);
-    
 
     void SetIsClustered(Bool_t value);
     void SetIsTracked(Bool_t value);
@@ -57,8 +56,7 @@ class ATEvent : public TNamed {
 //    STTrack *GetTrack(Int_t trackNo);
 //    STTrack *RemoveTrack(Int_t trackNo);
 //    vector<STTrack> *GetTrackArray();
-    
-   
+
     Double_t GetEventCharge();
     Double_t GetRhoVariance();
     Int_t GetHitPadMult(Int_t PadNum); // Returns the multiplicity of the pad where this hit belongs to
@@ -73,7 +71,7 @@ class ATEvent : public TNamed {
     static Bool_t SortHit(const ATHit &lhs, const ATHit &rhs)  { return lhs.fPadNum < rhs.fPadNum; }
     static Bool_t SortHitTime(const ATHit &lhs, const ATHit &rhs)  { return lhs.fTimeStamp < rhs.fTimeStamp; }
     Bool_t SortHitArray();
-    Bool_t SortHitArrayTime();  
+    Bool_t SortHitArrayTime();
 
   private:
     Bool_t fIsClustered;
@@ -93,13 +91,8 @@ class ATEvent : public TNamed {
 
     Float_t fMeshSig[512];
 
-   
-
-  ClassDef(ATEvent, 2);
 };
 
 //Bool_t operator<(const ATHit &s1, const ATHit &s2);
-
-
 
 #endif

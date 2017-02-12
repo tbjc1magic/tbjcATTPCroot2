@@ -12,8 +12,6 @@
 #include "ATRawEvent.hh"
 #include "ATPad.hh"
 
-ClassImp(ATRawEvent);
-
 ATRawEvent::ATRawEvent()
 :TNamed("ATRawEvent", "Raw event container")
 {

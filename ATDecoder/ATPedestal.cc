@@ -14,8 +14,6 @@
 
 #include <iostream>
 
-ClassImp(ATPedestal);
-
 ATPedestal::ATPedestal() {
   fMath = new GETMath2();
 }

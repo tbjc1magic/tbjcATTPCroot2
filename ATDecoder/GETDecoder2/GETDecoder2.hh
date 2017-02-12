@@ -29,7 +29,6 @@
 
 #include "TROOT.h"
 #include "TString.h"
-#include "TClonesArray.h"
 class tbjcArray;
 //class GETPlot;
 
@@ -107,9 +106,7 @@ class GETDecoder2
     GETLayeredFrame *fLayeredFrame;
 
     tbjcArray *fFrameInfoArray;
-   // TClonesArray *fFrameInfoArray;
     tbjcArray *fCoboFrameInfoArray;
-   // TClonesArray *fCoboFrameInfoArray;
     GETFrameInfo *fFrameInfo;
     GETFrameInfo *fCoboFrameInfo;
 

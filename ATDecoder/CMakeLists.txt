@@ -7,8 +7,8 @@ add_subdirectory(GETDecoder2)
 file(GLOB sources *.cxx *.cc)
 file(GLOB headers *.h *.hh)
 
-ROOT_GENERATE_DICTIONARY(G__ATDecoder ${headers} )
-add_library(ATDecoder  SHARED ${sources} G__ATDecoder.cxx)
+#ROOT_GENERATE_DICTIONARY(G__ATDecoder ${headers} )
+add_library(ATDecoder  SHARED ${sources})# G__ATDecoder.cxx)
 target_include_directories(ATDecoder PUBLIC GETDecoder2)
 target_include_directories(ATDecoder PUBLIC AtMap)
 

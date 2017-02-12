@@ -28,7 +28,6 @@ class ATPedestal : public TObject {
   private:
     GETMath2 *fMath;
 
-  ClassDef(ATPedestal, 1);
 };
 
 #endif

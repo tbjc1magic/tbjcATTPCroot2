@@ -9,8 +9,6 @@
 #include <iostream>
 #include "ATPad.hh"
 
-ClassImp(ATPad);
-
 ATPad::ATPad()
 {
     fPadNum = -1;

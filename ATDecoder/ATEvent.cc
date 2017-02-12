@@ -4,8 +4,6 @@
 
 #include "ATEvent.hh"
 
-ClassImp(ATEvent);
-
 ATEvent::ATEvent(Bool_t isClustered, Bool_t isTracked, Bool_t isChanged)
 :TNamed("ATEvent", "Event container")
 {
@@ -19,8 +17,6 @@ ATEvent::ATEvent(Bool_t isClustered, Bool_t isTracked, Bool_t isChanged)
   fQevent = -100.0;
   fRhoVariance = 0.0;
 
-  
- 
 }
 
 ATEvent::ATEvent(ATEvent *object)
@@ -29,7 +25,7 @@ ATEvent::ATEvent(ATEvent *object)
   fEventID = object -> GetEventID();
   fQevent = -100.0;
   fRhoVariance = 0.0;
-    
+
   fIsClustered = object -> IsClustered();
   fIsTracked = object -> IsTracked();
   fIsChanged = object -> IsChanged();
@@ -40,8 +36,6 @@ ATEvent::ATEvent(ATEvent *object)
     //fClusterArray = *(object -> GetClusterArray());
 
   fIsGood = object -> IsGood();
-
- 
 
 }
 
@@ -65,10 +59,10 @@ Bool_t ATEvent::IsGood()                     { return fIsGood; }
 //Int_t ATEvent::GetNumClusters()              { return fClusterArray.size(); }
 
 // setters
-void ATEvent::SetEventID(Int_t evtid)                                 { fEventID = evtid; } 
-void ATEvent::AddHit(ATHit *hit)                                      { fHitArray.push_back(*hit); } 
-void ATEvent::SetHitArray(vector<ATHit> *hitArray)                    { fHitArray = *hitArray; }  
-//void ATEvent::AddCluster(ATHitCluster *cluster)                   { fClusterArray.push_back(*cluster); } 
+void ATEvent::SetEventID(Int_t evtid)                                 { fEventID = evtid; }
+void ATEvent::AddHit(ATHit *hit)                                      { fHitArray.push_back(*hit); }
+void ATEvent::SetHitArray(vector<ATHit> *hitArray)                    { fHitArray = *hitArray; }
+//void ATEvent::AddCluster(ATHitCluster *cluster)                   { fClusterArray.push_back(*cluster); }
 //void ATEvent::SetClusterArray(vector<ATHitCluster> *clusterArray) { fClusterArray = *clusterArray; }
 void ATEvent::SetEventCharge(Double_t Qevent)  			      {fQevent = Qevent;}
 void ATEvent::SetRhoVariance(Double_t RhoVariance)                    { fRhoVariance = RhoVariance;}
@@ -120,7 +114,6 @@ vector<ATHit> *ATEvent::GetHitArray()
   return &fClusterArray;
 }*/
 
-
 Double_t ATEvent::GetEventCharge()  {return fQevent;}
 Double_t ATEvent::GetRhoVariance()  { return fRhoVariance;}
 
@@ -135,39 +128,22 @@ Int_t ATEvent::GetHitPadMult(Int_t PadNum)
                     return -1;
     }else return padval;
 
-
 }
 
 Bool_t ATEvent::SortHitArray()
 {
- 
+
   std::sort(fHitArray.begin(),fHitArray.end(), SortHit);
 
 }
 
 Bool_t ATEvent::SortHitArrayTime()
 {
- 
+
   std::sort(fHitArray.begin(),fHitArray.end(), SortHitTime);
 
 }
 
 //Bool_t operator<(const ATHit &s1, const ATHit &s2){
 
-
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

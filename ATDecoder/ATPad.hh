@@ -46,7 +46,6 @@ class ATPad : public TObject  {
     Int_t GetMaxADCIdx();
     Bool_t GetValidPad();
 
-
     Double_t *GetADC();
     Double_t GetADC(Int_t idx);
 
@@ -66,8 +65,6 @@ class ATPad : public TObject  {
     //Bool_t fIsGainCalibrated;
     Double_t fAdc[512];
     Bool_t kIsAux;
-
-    ClassDef(ATPad, 1);
 
 };
 

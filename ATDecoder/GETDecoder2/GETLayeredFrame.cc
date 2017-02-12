@@ -9,14 +9,12 @@ GETLayeredFrame::GETLayeredFrame() {
 }
 
 Int_t  GETLayeredFrame::GetNumFrames()        { return GetNItems(); }
-// TClonesArray *GETLayeredFrame::GetFrames()           { return fFrames; }
 tbjcArray *GETLayeredFrame::GetFrames()           { return fFrames; }
 GETBasicFrame *GETLayeredFrame::GetFrame(Int_t index) { return (GETBasicFrame * ) fFrames -> At(index); }
 
 void GETLayeredFrame::Clear(Option_t *) {
     if (fFrames == NULL)
         fFrames = new tbjcClonesArray<GETBasicFrame>(48);
-       // fFrames = new TClonesArray("GETBasicFrame", 48);
 
     GETLayerHeader::Clear();
     fFrames -> Clear("C");

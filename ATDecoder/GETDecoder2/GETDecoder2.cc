@@ -90,10 +90,8 @@ void GETDecoder2::Initialize()
     fWriteFile = "";
 
     if (    fFrameInfoArray == NULL) fFrameInfoArray = new tbjcClonesArray<GETFrameInfo>(10000);
-    //  if (    fFrameInfoArray == NULL) fFrameInfoArray = new TClonesArray("GETFrameInfo",10000);
     fFrameInfoArray -> Clear("C");
 
-    // if (fCoboFrameInfoArray == NULL) fCoboFrameInfoArray = new TClonesArray("GETFrameInfo", 10000);
     if (fCoboFrameInfoArray == NULL) fCoboFrameInfoArray = new tbjcClonesArray<GETFrameInfo>(10000);
     fCoboFrameInfoArray -> Clear("C");
 

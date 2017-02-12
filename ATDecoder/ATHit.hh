@@ -5,7 +5,6 @@
 #include "TObject.h"
 #include "TVector3.h"
 
-
 class ATHit : public TObject {
   public:
     ATHit();
@@ -87,8 +86,6 @@ class ATHit : public TObject {
 
     Int_t fHitMult; // Hit multiplicity in the pad where the hit was found
 
-
-  ClassDef(ATHit, 2);
 };
 
 #endif
