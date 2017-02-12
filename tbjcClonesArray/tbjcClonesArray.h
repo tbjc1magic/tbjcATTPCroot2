@@ -28,8 +28,8 @@ class tbjcClonesArray: public tbjcArray
     template<class T>
 int tbjcClonesArray<T>::GetLast()
 {
-    for(int i=fCont.size()-1;i>0; i--)
-        if(fCont[i]) return i;
+    for(int i=fCont.size()-1;i>=0; i--)
+        if(fCont[i]!=NULL) return i;
     return -1;
 }
     template<class T>
