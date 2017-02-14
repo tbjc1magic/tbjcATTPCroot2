@@ -1,0 +1,39 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(tbjcAnalysis C CXX)
+
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
+find_package(ROOT)
+include(${ROOT_USE_FILE})
+
+include_directories(${ROOT_INCLUDE_DIRS})
+add_definitions(${GCC_COVERAGE_COMPILE_FLAGS})
+
+FIND_PACKAGE( Boost 1.40 COMPONENTS program_options REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+
+#add_subdirectory(GETDecoder2)
+#add_subdirectory(AtMap)
+add_subdirectory(ATDecoder)
+add_subdirectory(FairRoot)
+add_subdirectory(ATDigiPar)
+add_subdirectory(ATDecoder2Task)
+add_subdirectory(ATPSATask)
+add_subdirectory(ATPhiRecoTask)
+
+add_executable(example main.cxx )
+target_include_directories(example PUBLIC tbjcClonesArray )
+target_include_directories(example PUBLIC ATDecoder2Task)
+target_include_directories(example PUBLIC FairRoot)
+target_include_directories(example PUBLIC ATDecoder)
+target_include_directories(example PUBLIC ATDigiPar)
+target_include_directories(example PUBLIC ATPSATask)
+target_include_directories(example PUBLIC ATPhiRecoTask)
+
+target_link_libraries(example ${ROOT_LIBRARIES})
+target_link_libraries(example ATDecoder2Task)
+target_link_libraries(example FairRoot)
+target_link_libraries(example ATDecoder)
+target_link_libraries(example ATDigiPar)
+target_link_libraries(example ATPSATask)
+target_link_libraries(example ATPhiRecoTask)
