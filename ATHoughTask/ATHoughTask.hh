@@ -10,6 +10,7 @@
 class ATEvent;
 class ATProtoEvent;
 class ATDigiPar;
+class tbjcArray;
 
 // ROOT classes
 #include "TClonesArray.h"
@@ -38,9 +39,9 @@ class ATHoughTask : public FairTask {
 
     ATDigiPar *fPar;
 
-    TClonesArray *fEventHArray;
-    TClonesArray *fProtoEventHArray;
-    TClonesArray *fHoughArray;
+    tbjcArray *fEventHArray;
+    tbjcArray *fProtoEventHArray;
+    tbjcArray *fHoughArray;
 
     ATHoughSpace *fHoughSpace;
     ATEvent *fEvent;
@@ -57,7 +58,6 @@ class ATHoughTask : public FairTask {
 
     Int_t fInternalID;
 
-  ClassDef(ATHoughTask, 1);
 };
 
 #endif

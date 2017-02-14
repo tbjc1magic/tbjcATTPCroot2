@@ -40,8 +40,6 @@ class ATHoughSpace : public TObject
 
         Double_t fThreshold;
 
-        ClassDef(ATHoughSpace, 2);
-
 };
 
 #endif

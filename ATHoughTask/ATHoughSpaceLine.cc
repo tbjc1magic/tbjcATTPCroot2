@@ -7,7 +7,6 @@
 #include "ATHit.hh"
 #include "TVector3.h"
 #include "ATEvent.hh"
-ClassImp(ATHoughSpaceLine)
 
 ATHoughSpaceLine::ATHoughSpaceLine()
 {

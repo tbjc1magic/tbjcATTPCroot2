@@ -11,8 +11,6 @@
 #include "FairRuntimeDb.h"
 #include "FairRun.h"
 
-ClassImp(ATHoughSpaceCircle)
-
 ATHoughSpaceCircle::ATHoughSpaceCircle()
 {
     HoughPar.clear();

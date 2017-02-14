@@ -118,8 +118,6 @@ class ATHoughSpaceCircle : public ATHoughSpace{
                 }
         };
 
-        ClassDef(ATHoughSpaceCircle, 2);
-
 };
 
 #endif

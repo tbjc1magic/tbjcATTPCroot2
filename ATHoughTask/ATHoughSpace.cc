@@ -5,8 +5,6 @@
 #include "FairRuntimeDb.h"
 #include "FairRun.h"
 
-ClassImp(ATHoughSpace)
-
 ATHoughSpace::ATHoughSpace()
 {
   fThreshold = 0.0;

@@ -52,8 +52,6 @@ class ATMinimization : public TObject
 
 		FitPar FitParameters;
 
-		ClassDef(ATMinimization, 1);
-
 };
 
 #endif

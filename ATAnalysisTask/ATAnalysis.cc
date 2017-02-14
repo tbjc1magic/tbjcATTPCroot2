@@ -4,8 +4,6 @@
 #include "FairRuntimeDb.h"
 #include "FairRun.h"
 
-ClassImp(ATAnalysis)
-
 ATAnalysis::ATAnalysis()
 {
 }

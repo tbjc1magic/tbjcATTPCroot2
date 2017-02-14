@@ -9,7 +9,8 @@
 #include "ATAnalysisTask.hh"
 #include "ATProtoAnalysis.hh"
 
-ClassImp(ATAnalysisTask);
+#include "tbjcClonesArray.h"
+#include "tbjcArray.h"
 
 ATAnalysisTask::ATAnalysisTask()
 {
@@ -19,19 +20,20 @@ ATAnalysisTask::ATAnalysisTask()
   fHoughDist=2.0;
   fRunNum=0;
   fInternalID=0;
-  fAnalysisArray = new TClonesArray("ATProtoAnalysis");
+  fAnalysisArray = new tbjcClonesArray<ATProtoAnalysis>(10);
 }
 
 ATAnalysisTask::~ATAnalysisTask()
 {
 
-    std::cout<<"what the heck is happening 1"<<std::endl;
+    std::cout<<"ATAnalysisTask end here 1"<<std::endl;
+    delete fAnalysisArray;
    for (Int_t i=0;i<4;i++){
-       delete fHoughFit[i];
+     //  delete fHoughFit[i];
        delete fHitPatternFilter[i];
-       delete fFitResult[i];
+     //  delete fFitResult[i];
     }
-    std::cout<<"what the heck is happening 2"<<std::endl;
+    std::cout<<"ATAnalysisTask end here 2"<<std::endl;
 
 }
 
@@ -58,14 +60,14 @@ ATAnalysisTask::Init()
    fProtoAnalysis = new ATProtoAnalysis();
 
   if(fIsPhiReco){ //Find the Array of ProtoEvents
-      fProtoEventHArray = (TClonesArray *) ioMan -> GetObject("ATProtoEvent");
+      fProtoEventHArray = (tbjcArray *) ioMan -> GetObject("ATProtoEvent");
       if (fProtoEventHArray == 0) {
         fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATProtoEvent array! If SetPhiReco method is enabled, Phi Reconstruction is needed");
         return kERROR;
       }
   }
 
-  fHoughArray = (TClonesArray *) ioMan -> GetObject("ATHough");
+  fHoughArray = (tbjcArray *) ioMan -> GetObject("ATHough");
   if (fHoughArray == 0) {
     fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATHough array!");
     return kERROR;
@@ -105,7 +107,7 @@ void
 ATAnalysisTask::Exec(Option_t *opt)
 {
 
-   fAnalysisArray->Delete();
+   fAnalysisArray->Clear("C");
 
    if(fIsPhiReco){
        if (fProtoEventHArray -> GetEntriesFast() == 0)
@@ -123,19 +125,19 @@ ATAnalysisTask::Exec(Option_t *opt)
 
     // new ((*fAnalysisArray)[0]) ATProtoAnalysis();
 
-    ATProtoAnalysis * ProtoAnalysis = (ATProtoAnalysis *) new ((*fAnalysisArray)[0]) ATProtoAnalysis();
+    ATProtoAnalysis * ProtoAnalysis =  new  ATProtoAnalysis();
+    fAnalysisArray->Insert(0,ProtoAnalysis);
     //fProtoAnalysis = (ATProtoAnalysis *) fAnalysisArray->ConstructedAt(0);
     //std::auto_ptr<ATProtoAnalysis> ProtoAnalysis(new ATProtoAnalysis());
     ProtoAnalysis->Analyze(fProtoevent,fHoughSpace,fHoughFit,fHitPatternFilter,fFitResult);
 
-    /*
     for (Int_t i=0;i<4;i++){
       //fHoughFit[i]->Set(0);
       fHitPatternFilter[i]->Set(0);
       //fFitResult[i]->Clear(0);
     }
 
-    ATProtoAnalysis* fAna = (ATProtoAnalysis*)(*fAnalysisArray)[0];
+    ATProtoAnalysis* fAna = static_cast<ATProtoAnalysis*>(fAnalysisArray->At(0));
 
     std::vector<Double_t>*fPar0_fit =  fAna->GetPar0();
     std::vector<Double_t>*fPar1_fit =  fAna->GetPar1();
@@ -157,5 +159,5 @@ ATAnalysisTask::Exec(Option_t *opt)
         std::cout<<it<<std::endl;
     }
     std::cout<<"end of everything"<<std::endl;
-*/
+
 }

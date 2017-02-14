@@ -5,8 +5,6 @@
 #endif
 #include <memory>
 
-ClassImp(ATProtoAnalysis)
-
 ATProtoAnalysis::ATProtoAnalysis()
 {
       gErrorIgnoreLevel=kFatal;

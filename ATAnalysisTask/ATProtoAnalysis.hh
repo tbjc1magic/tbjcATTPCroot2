@@ -19,7 +19,6 @@ class ATProtoAnalysis : public ATAnalysis{
         std::vector<Double_t>* GetPar1()                   {return &fPar1_fit;}
         Double_t fHoughDist;
 
-
       private:
 
         std::vector<Double_t> fPar0_fit;
@@ -27,9 +26,6 @@ class ATProtoAnalysis : public ATAnalysis{
         std::vector<Double_t> fAngle;
         std::vector<Double_t> fAngle_fit;
         std::vector<std::pair<Double_t,Double_t>> fHoughPar;
-
-          ClassDef(ATProtoAnalysis, 1);
-
 
 };
 

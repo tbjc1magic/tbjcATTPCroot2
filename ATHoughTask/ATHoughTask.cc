@@ -10,8 +10,8 @@
 #include <iostream>
 
 #include "ATHoughTask.hh"
-
-ClassImp(ATHoughTask);
+#include "tbjcArray.h"
+#include "tbjcClonesArray.h"
 
 ATHoughTask::ATHoughTask()
 {
@@ -48,8 +48,8 @@ void ATHoughTask::SetHoughThreshold(Double_t value)      { fHoughThreshold = val
 ATHoughTask::Init()
 {
 
-    if(fIsLinear) fHoughArray = new TClonesArray("ATHoughSpaceLine");
-    else if(fIsCircular) fHoughArray = new TClonesArray("ATHoughSpaceCircle");
+    if(fIsLinear) fHoughArray = new tbjcClonesArray<ATHoughSpaceLine>(10);
+    else if(fIsCircular) fHoughArray = new tbjcClonesArray<ATHoughSpaceCircle>(10);
     else{
 
         fLogger -> Error(MESSAGE_ORIGIN, "-I- ATHoughTask : Hough Space Calculation NOT Set. Please choose a Hough Space Topology");
@@ -63,14 +63,14 @@ ATHoughTask::Init()
         return kERROR;
     }
 
-    fEventHArray = (TClonesArray *) ioMan -> GetObject("ATEventH");
+    fEventHArray = (tbjcArray *) ioMan -> GetObject("ATEventH");
     if (fEventHArray == 0) {
         fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATEvent array!");
         return kERROR;
     }
 
     if(fIsPhiReco){ //Find the Array of ProtoEvents
-        fProtoEventHArray = (TClonesArray *) ioMan -> GetObject("ATProtoEvent");
+        fProtoEventHArray = (tbjcArray *) ioMan -> GetObject("ATProtoEvent");
         if (fProtoEventHArray == 0) {
             fLogger -> Error(MESSAGE_ORIGIN, "Cannot find ATProtoEvent array! If SetPhiReco method is enabled, Phi Reconstruction is needed");
             return kERROR;
@@ -102,7 +102,7 @@ ATHoughTask::SetParContainers()
     void
 ATHoughTask::Exec(Option_t *opt)
 {
-    fHoughArray -> Delete();
+    fHoughArray -> Clear("C");
 
     if (fEventHArray -> GetEntriesFast() == 0)
         return;
@@ -120,14 +120,18 @@ ATHoughTask::Exec(Option_t *opt)
 
     if(fIsLinear){ // TODO: Solve this dirty way with a dynamic cast and make global pointers
 
-        ATHoughSpaceLine *HoughSpace = (ATHoughSpaceLine *) new ((*fHoughArray)[0]) ATHoughSpaceLine();
+        ATHoughSpaceLine *HoughSpace = new ATHoughSpaceLine();
+        fHoughArray->Insert(0,HoughSpace);
+
         HoughSpace->SetRadiusThreshold(fRadThreshold);
         if(fIsPhiReco) HoughSpace ->CalcHoughSpace(fProtoevent,kTRUE,kTRUE,kTRUE,kTRUE);
         else HoughSpace ->CalcHoughSpace(fEvent,kTRUE,kTRUE,kTRUE);
 
     }
     else if(fIsCircular){
-        ATHoughSpaceCircle *HoughSpace = (ATHoughSpaceCircle *) new ((*fHoughArray)[0]) ATHoughSpaceCircle();
+        ATHoughSpaceCircle *HoughSpace = new ATHoughSpaceCircle();
+        fHoughArray->Insert(0,HoughSpace);
+
         HoughSpace ->SetThreshold(fHoughThreshold);
         HoughSpace ->CalcHoughSpace(fEvent,kTRUE,kTRUE,kTRUE);
     }

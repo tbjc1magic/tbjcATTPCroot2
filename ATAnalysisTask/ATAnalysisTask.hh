@@ -19,7 +19,7 @@
 #include "ATProtoAnalysis.hh"
 
 // ROOT classes
-#include "TClonesArray.h"
+class tbjcArray;
 
 #pragma link C++ class ATAnalysisTask+;
 class ATAnalysisTask : public FairTask {
@@ -38,9 +38,9 @@ class ATAnalysisTask : public FairTask {
   private:
     FairLogger *fLogger;
     //TClonesArray *fEventHArray;
-    TClonesArray *fProtoEventHArray;
-    TClonesArray *fHoughArray;
-    TClonesArray *fAnalysisArray;
+    tbjcArray *fProtoEventHArray;
+    tbjcArray *fHoughArray;
+    tbjcArray *fAnalysisArray;
 
     ATProtoAnalysis* fProtoAnalysis;
     ATHoughSpaceLine *fHoughSpace;
@@ -58,7 +58,6 @@ class ATAnalysisTask : public FairTask {
     TGraph *fHitPatternFilter[4];
     TF1 *fFitResult[4];
 
-  ClassDef(ATAnalysisTask, 1);
 };
 
 #endif

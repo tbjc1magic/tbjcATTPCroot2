@@ -22,7 +22,6 @@
 
 #include <math.h>
 using namespace std;
-ClassImp(ATMCMinimization)
 
 ATMCMinimization::ATMCMinimization()
 {

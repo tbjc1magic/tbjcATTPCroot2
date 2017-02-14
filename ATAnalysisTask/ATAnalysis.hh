@@ -32,8 +32,6 @@ class ATAnalysis : public TObject
 
        virtual void Analyze(ATProtoEvent* protoevent,ATHoughSpaceLine* houghspace,TF1 *(&HoughFit)[4],TGraph *(&HitPatternFilter)[4],TF1 *(&FitResult)[4])=0;
 
-       ClassDef(ATAnalysis, 1);
-
 };
 
 #endif

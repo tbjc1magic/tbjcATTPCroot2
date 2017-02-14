@@ -5,7 +5,6 @@
 #include "FairRun.h"
 #include "ATEvent.hh"
 #include "TVector3.h"
-ClassImp(ATMinimization)
 
 ATMinimization::ATMinimization()
 {

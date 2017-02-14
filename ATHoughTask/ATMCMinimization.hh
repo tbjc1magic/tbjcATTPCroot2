@@ -84,8 +84,6 @@ class ATMCMinimization : public ATMinimization{
 
           Bool_t kDebug;
 
-        ClassDef(ATMCMinimization, 1);
-
 };
 
 #endif

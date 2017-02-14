@@ -46,8 +46,6 @@ class ATHoughSpaceLine : public ATHoughSpace{
                 }
         };
 
-        ClassDef(ATHoughSpaceLine, 1);
-
 };
 
 #endif

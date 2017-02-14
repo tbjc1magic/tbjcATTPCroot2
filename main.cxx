@@ -178,6 +178,8 @@ int test4()
 #include "ATDecoder2Task.hh"
 #include "ATPSATask.hh"
 #include "ATPhiRecoTask.hh"
+#include "ATHoughTask.hh"
+#include "ATAnalysisTask.hh"
 int test5()
 {
     TString outputFile = "output_proto.root";
@@ -228,12 +230,12 @@ int test5()
     ATPhiRecoTask *phirecoTask = new ATPhiRecoTask();
     phirecoTask -> SetPersistence();
     run -> AddTask(phirecoTask);
-    /*
-       ATHoughTask *HoughTask = new ATHoughTask();
-       HoughTask->SetPhiReco();
-       HoughTask->SetPersistence();
-       HoughTask->SetLinearHough();
-       HoughTask->SetRadiusThreshold(3.0); // Truncate Hough Space Calculation
+
+    ATHoughTask *HoughTask = new ATHoughTask();
+    HoughTask->SetPhiReco();
+    HoughTask->SetPersistence();
+    HoughTask->SetLinearHough();
+    HoughTask->SetRadiusThreshold(3.0); // Truncate Hough Space Calculation
     //HoughTask ->SetCircularHough();
     run ->AddTask(HoughTask);
 
@@ -242,11 +244,10 @@ int test5()
     AnaTask->SetHoughDist(2.0);
     AnaTask->SetPersistence(kTRUE);
     run->AddTask(AnaTask);
-    */
 
     cout<<"tt"<<run->GetNTasks()<<endl;
     run->Init();
-    run->Run(0,1);
+    run->Run(0,2);
 
     //  delete psaTask; TTask
     //  delete decoderTask;

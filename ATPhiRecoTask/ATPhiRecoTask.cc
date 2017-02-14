@@ -103,11 +103,10 @@ ATPhiRecoTask::Exec(Option_t *opt)
 
     protoevent->SetEventID(event->GetEventID());
     fPhiReco->PhiAnalyze(event,protoevent);
-
+/*
     std:: cout<<"I hate shit"<<std::endl;
 
-    /*
-       ATProtoEvent* fEvent = (ATProtoEvent*)(*fPEventArray)[0];
+       ATProtoEvent* fEvent = (ATProtoEvent*)(fPEventArray->At(0));
        vector<ATProtoQuadrant>* fquad = fEvent->GetQuadrantArray();
        for(auto it : *fquad)
        {
@@ -118,5 +117,5 @@ ATPhiRecoTask::Exec(Option_t *opt)
        std::cout<<"aa:"<<pos.x()<<":"<<pos.y()<<":"<<pos.z()<<std::endl;
        }
        }
-       */
+*/
 }
