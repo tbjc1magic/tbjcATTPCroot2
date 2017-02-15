@@ -248,7 +248,7 @@ int test5()
     cout<<"tt"<<run->GetNTasks()<<endl;
     run->Init();
     run->Run(0,2);
-
+   // run -> RunOnTBData();
     //  delete psaTask; TTask
     //  delete decoderTask;
     delete fPar;

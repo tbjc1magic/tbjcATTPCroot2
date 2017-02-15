@@ -94,3 +94,16 @@ void FairRunAna::Run(Int_t Ev_start, Int_t Ev_end)
 
     }
 }
+
+void FairRunAna::RunOnTBData() {
+      std::cout << "FairRunAna::RunOnTBData " << std::endl;
+        while (fRootManager->FinishRun() != kTRUE) {
+		fTask->ExecuteTask("");
+          //  Fill();
+            fTask->FinishEvent();
+        }
+
+        fTask->FinishTask();
+      //  fRootManager->LastFill();
+      //  fRootManager->Write();
+}
