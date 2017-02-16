@@ -55,5 +55,3 @@ void FairRootManager::Register(const char*BrName,const char*foldername,tbjcArray
     p = fMap.find(name);
     if(p==fMap.end()) fMap.insert(std::pair<TString,tbjcArray*>(name, obj));
 }
-
-void FairRootManager::SetFinishRun(Bool_t val){}
