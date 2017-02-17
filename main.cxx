@@ -182,7 +182,6 @@ int test4()
 #include "ATAnalysisTask.hh"
 int test5()
 {
-    TString outputFile = "output_proto.root";
     TString dataFile = "runfiles/1.txt";
     TString parameterFile = "pATTPC.ND2015.par";
 
@@ -196,7 +195,6 @@ int test5()
 
     FairRunAna* run = new FairRunAna();
 
-    run -> SetOutputFile(outputFile.Data());
     TString paramterFileWithPath = paraDir + parameterFile;
 
     FairRuntimeDb* rtdb = run->GetRuntimeDb();

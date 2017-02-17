@@ -30,8 +30,6 @@ class FairRun : public TNamed
    // FairTask* GetTask(const char* taskName);
     Int_t     GetNTasks() {return fNTasks;}
 
-    void SetOutputFile(const char* fname);
-
   private:
 
     Int_t fNTasks;

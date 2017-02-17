@@ -562,5 +562,4 @@ void ATCore2::ProcessBasicFrame(GETBasicFrame *basicFrame)
         }
     }
 
-    cout<<"hererere"<<endl;
 }

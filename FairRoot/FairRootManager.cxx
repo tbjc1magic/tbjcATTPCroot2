@@ -9,11 +9,17 @@ FairRootManager* FairRootManager:: fgInstance=0;
 FairRootManager::FairRootManager()
 {
     fOutFile = NULL;
-
     fgInstance = this;
+
+    fOutFile = new TFile("output.root","RECREATE");
+    fOutTree = new TTree("tree","tree");
+
 }
 FairRootManager::~FairRootManager()
 {
+    fOutTree->Write();
+    delete fOutTree;
+
     if(fOutFile)
     {
         fOutFile->Close();
@@ -26,19 +32,6 @@ FairRootManager*FairRootManager::Instance()
     return fgInstance;
 }
 
-TFile* FairRootManager::OpenOutFile(const char* fname)
-{
-  LOG(DEBUG) << "Opening output file, " << fname << FairLogger::endl;
-
-  if(fOutFile) {
-    CloseOutFile();
-  }
-  LOG(INFO) << "FairRootManager::OpenOutFile(\"" << fname << "\")" << FairLogger::endl;
-  fOutFile = new TFile(fname, "recreate");
-  return fOutFile;
-}
-
-//TClonesArray* FairRootManager::GetObject(const char* BrName)
 tbjcArray* FairRootManager::GetObject(const char* BrName)
 {
     TString name(BrName);
@@ -47,7 +40,6 @@ tbjcArray* FairRootManager::GetObject(const char* BrName)
     if(p!=fMap.end()) return p->second;
 }
 
-//void FairRootManager::Register(const char*BrName,const char*foldername,TClonesArray*obj,Bool_t toFile)
 void FairRootManager::Register(const char*BrName,const char*foldername,tbjcArray*obj,Bool_t toFile)
 {
     TString name(BrName);

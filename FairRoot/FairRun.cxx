@@ -38,9 +38,3 @@ void FairRun::SetTask(FairTask* t)
     if ( fTask ) { delete fTask; }
     fTask = t;
 }
-
-void FairRun::SetOutputFile(const char* fname)
-{
-    fOutname=fname;
-    if (fRootManager) fOutFile = fRootManager->OpenOutFile(fOutname);
-}

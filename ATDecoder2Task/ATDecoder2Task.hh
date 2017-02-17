@@ -80,6 +80,8 @@ class ATDecoder2Task : public FairTask {
     Int_t ReadEvent(Int_t eventID);
 
   private:
+    void test(tbjcArray*);
+
     FairLogger *fLogger;                ///< FairLogger singleton
 
     ATCore2 *fDecoder;                   ///< ATConverter pointer

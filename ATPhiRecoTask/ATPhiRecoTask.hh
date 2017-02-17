@@ -30,6 +30,7 @@ class ATPhiRecoTask : public FairTask {
     virtual void Exec(Option_t *opt);
 
   private:
+    void test(tbjcArray*);
     FairLogger *fLogger;
 
     ATDigiPar *fPar;

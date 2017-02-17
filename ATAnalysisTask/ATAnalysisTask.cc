@@ -103,8 +103,33 @@ ATAnalysisTask::SetParContainers()
     fLogger -> Fatal(MESSAGE_ORIGIN, "ATDigiPar not found!!");
 }
 #include <iostream>
-void
-ATAnalysisTask::Exec(Option_t *opt)
+void  ATAnalysisTask::test(tbjcArray* fAnalysisArray)
+{
+    ATProtoAnalysis* fAna = static_cast<ATProtoAnalysis*>(fAnalysisArray->At(0));
+
+    std::vector<Double_t>*fPar0_fit =  fAna->GetPar0();
+    std::vector<Double_t>*fPar1_fit =  fAna->GetPar1();
+    std::vector<Double_t>*fAngle_Fit =  fAna->GetAngleFit();
+
+    std::cout<<"par0"<<std::endl;
+    for(auto it : *fPar0_fit)
+    {
+        std::cout<<it<<std::endl;
+    }
+    std::cout<<"par1"<<std::endl;
+    for(auto it : *fPar1_fit)
+    {
+        std::cout<<it<<std::endl;
+    }
+    std::cout<<"angle"<<std::endl;
+    for(auto it : *fAngle_Fit)
+    {
+        std::cout<<it<<std::endl;
+    }
+    std::cout<<"end of everything"<<std::endl;
+}
+
+void ATAnalysisTask::Exec(Option_t *opt)
 {
 
    fAnalysisArray->Clear("C");
@@ -137,27 +162,5 @@ ATAnalysisTask::Exec(Option_t *opt)
       //fFitResult[i]->Clear(0);
     }
 
-    ATProtoAnalysis* fAna = static_cast<ATProtoAnalysis*>(fAnalysisArray->At(0));
-
-    std::vector<Double_t>*fPar0_fit =  fAna->GetPar0();
-    std::vector<Double_t>*fPar1_fit =  fAna->GetPar1();
-    std::vector<Double_t>*fAngle_Fit =  fAna->GetAngleFit();
-
-    std::cout<<"par0"<<std::endl;
-    for(auto it : *fPar0_fit)
-    {
-        std::cout<<it<<std::endl;
-    }
-    std::cout<<"par1"<<std::endl;
-    for(auto it : *fPar1_fit)
-    {
-        std::cout<<it<<std::endl;
-    }
-    std::cout<<"angle"<<std::endl;
-    for(auto it : *fAngle_Fit)
-    {
-        std::cout<<it<<std::endl;
-    }
-    std::cout<<"end of everything"<<std::endl;
-
+  //  test(fAnalysisArray);
 }

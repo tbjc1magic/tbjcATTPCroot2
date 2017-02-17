@@ -99,8 +99,7 @@ ATHoughTask::SetParContainers()
         fLogger -> Fatal(MESSAGE_ORIGIN, "ATDigiPar not found!!");
 }
 
-    void
-ATHoughTask::Exec(Option_t *opt)
+void ATHoughTask::Exec(Option_t *opt)
 {
     fHoughArray -> Clear("C");
 
@@ -136,28 +135,18 @@ ATHoughTask::Exec(Option_t *opt)
         HoughSpace ->CalcHoughSpace(fEvent,kTRUE,kTRUE,kTRUE);
     }
 
-    //(ATHoughSpaceLine *) new ((*fHoughArray)[0]) ATHoughSpaceLine();
-    //event -> SetEventID(event -> GetEventID());
-    /* event -> SetEventID(rawEvent -> GetEventID());
-
-       if (!(rawEvent -> IsGood()))
-       event -> SetIsGood(kFALSE);
-       else {
-       fPSA -> Analyze(rawEvent, event);
-       event -> SetIsGood(kTRUE);
-       }*/
 }
+/*
+void ATHoughTask::FinishEvent()
+{
 
-/*void
-  ATHoughTask::FinishEvent()
-  {
+    if (fEventHArray -> GetEntriesFast() == 0) return;
 
-  if (fEventHArray -> GetEntriesFast() == 0) return;
-
-  fEvent  = (ATEvent *) fEventHArray -> At(0);
-  if (fEvent == NULL)
-  {
-  fLogger -> Info(MESSAGE_ORIGIN, "End of file. Terminating FairRun.");
-  FairRootManager::Instance() -> SetFinishRun();
-  }
-  }*/
+    fEvent  = (ATEvent *) fEventHArray -> At(0);
+    if (fEvent == NULL)
+    {
+        fLogger -> Info(MESSAGE_ORIGIN, "End of file. Terminating FairRun.");
+        FairRootManager::Instance() -> SetFinishRun();
+    }
+}
+*/

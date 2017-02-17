@@ -30,23 +30,17 @@ class FairRootManager : public TObject
         FairRootManager();
         virtual ~FairRootManager();
 
-        //  TClonesArray* GetObject(const char* BrName);
         tbjcArray* GetObject(const char* BrName);
         static FairRootManager* Instance();
-        // void   Register(const char*,const char*,TClonesArray*,Bool_t);
         void   Register(const char*,const char*,tbjcArray*,Bool_t);
-        TFile* OpenOutFile(const char*);
         Bool_t FinishRun() {return fFinishRun;}
-
         void SetFinishRun(Bool_t val = kTRUE){ fFinishRun = val;}
-        void  CloseOutFile() {if(fOutFile) fOutFile->Close(); }
     private:
 
         TTree* fOutTree;
 
         Bool_t fFinishRun; //!
         TFile* fOutFile;
-        // std::map < TString , TClonesArray*>     fMap;
         std::map < TString , tbjcArray*>     fMap;
         static                FairRootManager*  fgInstance;
 

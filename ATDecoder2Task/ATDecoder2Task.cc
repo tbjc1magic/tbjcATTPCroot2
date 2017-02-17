@@ -148,8 +148,21 @@ ATDecoder2Task::SetParContainers()
         fLogger -> Fatal(MESSAGE_ORIGIN, "Cannot find ATDigiPar!");
 }
 
-    void
-ATDecoder2Task::Exec(Option_t *opt)
+void ATDecoder2Task::test(tbjcArray* fRawEventArray)
+{
+    ATRawEvent* fEvent = static_cast<ATRawEvent*>(fRawEventArray->At(0));
+    ATPad* fPad = fEvent->GetPad(0);
+    Int_t * value = fPad->GetRawADC();
+    for(int i=0;i<512;i++)
+    {
+        std::cout<<i<<":"<<value[i]<<std::endl;
+    }
+
+    std::cout<< fRawEventArray->GetEntriesFast()<<std::endl;
+    std::cout<<"Decoder Finished"<<std::endl;
+}
+
+void ATDecoder2Task::Exec(Option_t *opt)
 {
     fRawEventArray -> Clear("C");
 
@@ -161,16 +174,7 @@ ATDecoder2Task::Exec(Option_t *opt)
     ATRawEvent* fEvent = new ATRawEvent(fRawEvent);
     fRawEventArray->Insert(0,fEvent);
 
-    // new ((*fRawEventArray)[0]) ATRawEvent(fRawEvent);
-    ATPad* fPad = fEvent->GetPad(0);
-    Int_t * value = fPad->GetRawADC();
-    for(int i=0;i<512;i++)
-    {
-        //    std::cout<<i<<":"<<value[i]<<std::endl;
-    }
-
-    std::cout<< fRawEventArray->GetEntriesFast()<<std::endl;
-    std::cout<<"Decoder Finished"<<std::endl;
+  //  test(fRawEventArray);
     fRawEvent = NULL;
 }
 

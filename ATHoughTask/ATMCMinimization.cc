@@ -209,7 +209,7 @@ Bool_t ATMCMinimization::Minimize(Double_t* parameter,ATEvent *event){
                         std::cout<<cGREEN<<" Energy of the proton : "<<e0sm<<" MeV "<<cNORMAL<<std::endl;
                         Double_t chimininit=1.e6;
 
-                        if(bro==0 || isnan(e0sm) || e0sm>100.0){
+                        if(bro==0 || std::isnan(e0sm) || e0sm>100.0){
                             std::cout<<cRED<<" Invalid energy !"<<cNORMAL<<std::endl;
                             return kFALSE;
                           }
@@ -478,7 +478,7 @@ Bool_t ATMCMinimization::Minimize(Double_t* parameter,ATEvent *event){
                                                                 //	if(z.gt.ztot) go to 100
                                                                 if(zTBCorr[iterCorrNorm]<0.0) break;
                                                                 //std::cout<<" Ekin : "<<ekin<<std::endl;
-                                                                if(ekin<0.001 || isnan(ekin)) break;
+                                                                if(ekin<0.001 || std::isnan(ekin)) break;
                                                                 //if(ekin<0) std::cout<<" Ekin "<<std::endl;
 
                                                     }//k loop Spiral Integration

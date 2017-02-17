@@ -86,10 +86,26 @@ ATPhiRecoTask::SetParContainers()
         fLogger -> Fatal(MESSAGE_ORIGIN, "ATDigiPar not found!!");
 }
 
-    void
-ATPhiRecoTask::Exec(Option_t *opt)
+void ATPhiRecoTask::test(tbjcArray* fPEventArray)
 {
-    std:: cout<<"I hate shit1"<<std::endl;
+    std:: cout<<"I hate shit"<<std::endl;
+
+    ATProtoEvent* fEvent = (ATProtoEvent*)(fPEventArray->At(0));
+    vector<ATProtoQuadrant>* fquad = fEvent->GetQuadrantArray();
+    for(auto it : *fquad)
+    {
+        vector<ATHit> *fHit = it.GetHitArray();
+        for(auto jt: *fHit)
+        {
+            TVector3 pos = jt.GetPosition();
+            std::cout<<"aa:"<<pos.x()<<":"<<pos.y()<<":"<<pos.z()<<std::endl;
+        }
+    }
+
+}
+
+void ATPhiRecoTask::Exec(Option_t *opt)
+{
     fPEventArray -> Clear("C");
 
     if (fEventHArray -> GetEntriesFast() == 0)
@@ -103,19 +119,6 @@ ATPhiRecoTask::Exec(Option_t *opt)
 
     protoevent->SetEventID(event->GetEventID());
     fPhiReco->PhiAnalyze(event,protoevent);
-/*
-    std:: cout<<"I hate shit"<<std::endl;
 
-       ATProtoEvent* fEvent = (ATProtoEvent*)(fPEventArray->At(0));
-       vector<ATProtoQuadrant>* fquad = fEvent->GetQuadrantArray();
-       for(auto it : *fquad)
-       {
-       vector<ATHit> *fHit = it.GetHitArray();
-       for(auto jt: *fHit)
-       {
-       TVector3 pos = jt.GetPosition();
-       std::cout<<"aa:"<<pos.x()<<":"<<pos.y()<<":"<<pos.z()<<std::endl;
-       }
-       }
-*/
+  //  test(fPEventArray);
 }
