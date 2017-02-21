@@ -17,3 +17,8 @@ To visualize the entries, the jupyter script is needed in the test folder.
 this program fake up the TClonesArray in the root and FairRootManager, FairTask, FairRun, FairRunAna and also FairParset from the FairRoot and FairSoft. So it loses the ability to visualize the trajectories in FairRoot.
 
 
+#######################
+######## test #########
+#######################
+
+This problem has been tested under local workstations, google cloud Ubuntu images, and Regulus HPC node. But it failed the test in HPC node "crcfe01", which has a corrupted root package.
