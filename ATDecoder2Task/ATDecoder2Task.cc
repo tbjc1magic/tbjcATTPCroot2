@@ -162,10 +162,10 @@ void ATDecoder2Task::test(tbjcArray* fRawEventArray)
 {
     ATRawEvent* fEvent = static_cast<ATRawEvent*>(fRawEventArray->At(0));
     ATPad* fPad = fEvent->GetPad(0);
-    Int_t * value = fPad->GetRawADC();
+    Double_t * value = fPad->GetADC();
     for(int i=0;i<512;i++)
     {
-        std::cout<<i<<":"<<value[i]<<std::endl;
+        std::cout<<i<<":"<<fPad->GetPadNum()<<":"<<value[i]<<std::endl;
     }
 
     std::cout<< fRawEventArray->GetEntriesFast()<<std::endl;
@@ -206,7 +206,7 @@ void ATDecoder2Task::Exec(Option_t *opt)
     ATRawEvent* fEvent = new ATRawEvent(fRawEvent);
     fRawEventArray->Insert(0,fEvent);
 
-    test(fRawEventArray);
+//    test(fRawEventArray);
     Fill(fRawEventArray);
     fInternalID++;
     fRawEvent = NULL;
