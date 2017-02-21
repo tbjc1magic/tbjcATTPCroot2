@@ -21,6 +21,9 @@ class tbjcArray;
 #pragma link C++ class ATDecoder2Task+;
 using std::vector;
 
+#include "tbjcDecoder.h"
+
+class TBranch;
 class ATDecoder2Task : public FairTask {
   public:
     /// Constructor
@@ -80,6 +83,7 @@ class ATDecoder2Task : public FairTask {
     Int_t ReadEvent(Int_t eventID);
 
   private:
+    void Fill(tbjcArray*);
     void test(tbjcArray*);
 
     FairLogger *fLogger;                ///< FairLogger singleton
@@ -124,6 +128,8 @@ class ATDecoder2Task : public FairTask {
 
     Int_t fInternalID;
 
+    tbjcPad tbjcPadReg;
+    TBranch  **tbjcBranch;
 };
 
 #endif

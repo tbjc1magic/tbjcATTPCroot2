@@ -25,6 +25,8 @@
 #include "tbjcClonesArray.h"
 #include "tbjcArray.h"
 
+#define tbjcPSABranch 2
+
 ATPSATask::ATPSATask():FairTask("ATPSATask")
 {
     fLogger = FairLogger::GetLogger();
@@ -40,11 +42,17 @@ ATPSATask::ATPSATask():FairTask("ATPSATask")
     fEventHArray = new tbjcClonesArray<ATEvent>(10);
 
     fPSAMode = 2;
+
+    tbjcBranch = new TBranch*[tbjcPSABranch];
+
 }
 
 ATPSATask::~ATPSATask()
 {
     std::cout<<"end is hereATPSATask"<<std::endl;
+
+    delete tbjcBranch;
+    delete fEventHArray;
 }
 
 void ATPSATask::SetPSAMode(Int_t value)               { fPSAMode = value; }
@@ -64,6 +72,11 @@ ATPSATask::Init()
         fLogger -> Error(MESSAGE_ORIGIN, "Cannot find RootManager!");
         return kERROR;
     }
+
+    TTree* fOutTree = ioMan->GetOutTree();
+
+  tbjcBranch[0] = fOutTree->Branch("PSA",&tbjcPSAReg,"EventNum/i:mesh[512]/float:RhoVariance/f:QEventTot/f");
+  tbjcBranch[1] = fOutTree->Branch("Hit",&tbjcHitReg,"EventNum/i:PadNum/i:hitNum/i:x/f:y/f:z/f:charge/f");
 
     fRawEventArray = (tbjcArray *) ioMan -> GetObject("ATRawEvent");
     if (fRawEventArray == 0) {
@@ -126,11 +139,33 @@ ATPSATask::SetParContainers()
         fLogger -> Fatal(MESSAGE_ORIGIN, "ATDigiPar not found!!");
 }
 
-void test(tbjcArray* fRawEventArray)
+void  ATPSATask::Fill(tbjcArray* fEventHArray)
 {
+    ATEvent* event = static_cast<ATEvent*>(fEventHArray->At(0));
 
+    tbjcPSAReg.EventNum = fInternalID;
+    Float_t *_mesh = event->GetMesh();
+    for(int i=0; i<512; i++)
+        tbjcPSAReg.mesh[i] = _mesh[i];
+    tbjcPSAReg.RhoVariance = event->GetRhoVariance();
+    tbjcPSAReg.QEventTot = event->GetEventCharge();
+
+    tbjcBranch[0]->Fill();
+
+    for(int i=0; i<event->GetNumHits(); i++)
+    {
+    tbjcHitReg.EventNum = fInternalID;
+    ATHit* hit = event->GetHit(i);
+    tbjcHitReg.PadNum = hit->GetHitPadNum();
+    tbjcHitReg.hitNum = hit->GetHitID();
+    tbjcHitReg.x = hit->GetPosition().x();
+    tbjcHitReg.y = hit->GetPosition().y();
+    tbjcHitReg.z = hit->GetPosition().z();
+    tbjcHitReg.charge = hit->GetCharge();
+    tbjcBranch[1]->Fill();
+    }
 }
-
+int  ATPSATask::fInternalID=0;
 void ATPSATask::Exec(Option_t *opt)
 {
 
@@ -153,4 +188,9 @@ void ATPSATask::Exec(Option_t *opt)
         fPSA -> Analyze(rawEvent, event);
         event -> SetIsGood(kTRUE);
     }
+
+    ////// fill ////////
+    Fill(fEventHArray);
+
+    fInternalID++;
 }

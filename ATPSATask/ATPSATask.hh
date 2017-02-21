@@ -11,6 +11,9 @@ class ATPSA;
 // ROOT classes
 #include "TClonesArray.h"
 class tbjcArray;
+class TBranch;
+
+#include "tbjcPSA.h"
 class ATPSATask : public FairTask {
   public:
     ATPSATask();
@@ -30,6 +33,11 @@ class ATPSATask : public FairTask {
     virtual void Exec(Option_t *opt);
 
   private:
+
+    void Fill(tbjcArray*);
+
+    TBranch  **tbjcBranch;
+
     FairLogger *fLogger;
 
     ATDigiPar *fPar;
@@ -48,6 +56,10 @@ class ATPSATask : public FairTask {
 
     Double_t fThreshold;
 
+    tbjcHit tbjcHitReg;
+    tbjcPSA tbjcPSAReg;
+
+    static int fInternalID;
 };
 
 #endif

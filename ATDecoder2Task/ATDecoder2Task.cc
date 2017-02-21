@@ -12,6 +12,8 @@
 
 #include "tbjcArray.h"
 #include "tbjcClonesArray.h"
+#include "TBranch.h"
+#define tbjcDecoderBranch 1
 
 ATDecoder2Task::ATDecoder2Task()
 {
@@ -43,13 +45,16 @@ ATDecoder2Task::ATDecoder2Task()
     fIsPseudoTopology = kFALSE;
 
     fInternalID = 0;
-
     fEventID = -1;
+
+    tbjcBranch = new TBranch*[tbjcDecoderBranch];
+
 }
 
 ATDecoder2Task::~ATDecoder2Task()
 {
 
+    delete tbjcBranch;
     cout<<"ATDecoder2Task end here 1"<<endl;
     delete fDecoder;
     cout<<"ATDecoder2Task end here 2"<<endl;
@@ -86,6 +91,11 @@ ATDecoder2Task::Init()
 
         return kERROR;
     }
+
+    TTree* fOutTree = ioMan->GetOutTree();
+
+  tbjcBranch[0] = fOutTree->Branch("Pad",&tbjcPadReg,
+          "EventNum/i:PadNum/i:PadX/f:PadY/f:IsValid/i:RawAdc[512]/i:MaxAdcId/i:IsPedestalSubtracted/i:Adc[512]/f:IsAux/i");
 
     ioMan -> Register("ATRawEvent", "ATTPC", fRawEventArray, fIsPersistence);
 
@@ -162,19 +172,43 @@ void ATDecoder2Task::test(tbjcArray* fRawEventArray)
     std::cout<<"Decoder Finished"<<std::endl;
 }
 
+void ATDecoder2Task::Fill(tbjcArray* fRawEventArray)
+{
+    ATRawEvent* fEvent = static_cast<ATRawEvent*>(fRawEventArray->At(0));
+
+    for(auto pad : *(fEvent->GetPads()))
+    {
+        tbjcPadReg.EventNum = fInternalID;
+        tbjcPadReg.PadNum = pad.GetPadNum();
+        tbjcPadReg.PadX =  pad.GetPadXCoord();
+        tbjcPadReg.PadY =   pad.GetPadYCoord();
+        tbjcPadReg.IsValid = pad.GetValidPad();
+        for(int i=0; i<512; i++)
+            tbjcPadReg.RawAdc[i] = pad.GetRawADC(i);
+        tbjcPadReg.MaxAdcIdx = pad.GetMaxADCIdx();
+        tbjcPadReg.IsPedestalSubtracted = pad.IsPedestalSubtracted();
+        for(int i=0;i<512;i++)
+            tbjcPadReg.Adc[i] = pad.GetADC(i);
+        tbjcPadReg.IsAux = pad.IsAux();
+        tbjcBranch[0]->Fill();
+    }
+}
+
 void ATDecoder2Task::Exec(Option_t *opt)
 {
     fRawEventArray -> Clear("C");
 
     if (fRawEvent == NULL)
         fRawEvent = fDecoder -> GetRawEvent(fEventID++);
-    fInternalID++;
+
     if(fInternalID%100==0) std::cout<<" Event Number "<<fEventID<<" Internal ID : "<<fInternalID<<" Number of Pads : "<<fRawEvent->GetNumPads()<<std::endl;
 
     ATRawEvent* fEvent = new ATRawEvent(fRawEvent);
     fRawEventArray->Insert(0,fEvent);
 
-  //  test(fRawEventArray);
+    test(fRawEventArray);
+    Fill(fRawEventArray);
+    fInternalID++;
     fRawEvent = NULL;
 }
 

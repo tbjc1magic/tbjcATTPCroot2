@@ -35,6 +35,7 @@ class FairRootManager : public TObject
         void   Register(const char*,const char*,tbjcArray*,Bool_t);
         Bool_t FinishRun() {return fFinishRun;}
         void SetFinishRun(Bool_t val = kTRUE){ fFinishRun = val;}
+        TTree* GetOutTree(){return fOutTree;}
     private:
 
         TTree* fOutTree;

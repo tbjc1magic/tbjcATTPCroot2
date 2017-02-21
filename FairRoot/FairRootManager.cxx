@@ -17,14 +17,13 @@ FairRootManager::FairRootManager()
 }
 FairRootManager::~FairRootManager()
 {
+    std::cout<<"FairRoot Write"<<std::endl;
+    fOutFile->cd();
     fOutTree->Write();
+   // fOutTree->Print();
     delete fOutTree;
-
-    if(fOutFile)
-    {
-        fOutFile->Close();
-        delete fOutFile;
-    }
+    fOutFile->Save();
+    fOutFile->Close();
 }
 
 FairRootManager*FairRootManager::Instance()
