@@ -23,3 +23,9 @@ this program fake up the TClonesArray in the root and FairRootManager, FairTask,
 
 This problem has been tested under local workstations, google cloud Ubuntu images, and Regulus HPC node. But it failed the test in HPC node "crcfe01", which has a corrupted root package.
 
+########################
+##### responsibility ###
+########################
+
+This project reuses most codes from the one by Yassid, https://github.com/ATTPC/ATTPCROOT. I will not be liable for the code maintainence, or any bugs.
+
