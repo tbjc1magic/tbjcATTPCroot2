@@ -24,6 +24,7 @@ FairRootManager::~FairRootManager()
     delete fOutTree;
     fOutFile->Save();
     fOutFile->Close();
+    std::cout<<"FairRoot Write Finished"<<std::endl;
 }
 
 FairRootManager*FairRootManager::Instance()
