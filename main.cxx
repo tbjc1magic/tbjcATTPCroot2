@@ -209,7 +209,7 @@ int test5()
     ATDecoder2Task *decoderTask = new ATDecoder2Task();
     decoderTask ->SetMapOpt(1);
 
-    decoderTask->AddData("data/72_8.graw");
+    decoderTask->AddData("data/85_8.graw");
     decoderTask ->SetGeo("map/proto_geo_hires.root");
     decoderTask ->SetProtoMap("map/proto.map");
     decoderTask ->SetMap("map/LookupProto20150331.xml");
@@ -245,7 +245,7 @@ int test5()
 
     cout<<"tt"<<run->GetNTasks()<<endl;
     run->Init();
-    //run->Run(0,3);
+   // run->Run(0,3);
     run -> RunOnTBData();
     //  delete psaTask; TTask
     //  delete decoderTask;
