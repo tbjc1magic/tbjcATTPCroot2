@@ -99,7 +99,8 @@ int test3()
     ATCore2 *fDecoder = new ATCore2(1);
     fDecoder->SetUseSeparatedData(0);
     fDecoder->SetInhibitMaps("","","");
-    fDecoder->AddData("data/GRAWFILE.graw");
+   // fDecoder->AddData("data/GRAWFILE.graw");
+    fDecoder->AddData("data/72_8.graw");
 
     fDecoder->SetData(0);
     fDecoder->SetNumTbs(512);
@@ -180,7 +181,7 @@ int test4()
 #include "ATPhiRecoTask.hh"
 #include "ATHoughTask.hh"
 #include "ATAnalysisTask.hh"
-int test5()
+int test5(int argc, char* argv[])
 {
     TString dataFile = "runfiles/1.txt";
     TString parameterFile = "pATTPC.ND2015.par";
@@ -209,7 +210,11 @@ int test5()
     ATDecoder2Task *decoderTask = new ATDecoder2Task();
     decoderTask ->SetMapOpt(1);
 
-    decoderTask->AddData("data/85_8.graw");
+    //decoderTask->AddData("data/75_8.graw");
+
+    for(int i=1; i<argc; i++)
+    decoderTask->AddData(argv[i]);
+
     decoderTask ->SetGeo("map/proto_geo_hires.root");
     decoderTask ->SetProtoMap("map/proto.map");
     decoderTask ->SetMap("map/LookupProto20150331.xml");
@@ -255,8 +260,15 @@ int test5()
     cout<<"thing should be finished"<<endl;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    test5();
+
+    if(argc<2)
+    {
+        cout<<"provide the file name please"<<endl;
+        exit(1);
+    }
+
+    test5(argc,argv);
     return 1;
 }
