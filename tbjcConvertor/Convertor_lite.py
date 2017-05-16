@@ -15,13 +15,7 @@ start_time = time.time()
 
 # In[ ]:
 
-import sys
-
-if len(sys.argv)!=3:
-    print "Provide input file name and output file name!!!"
-
-#engine = create_engine('sqlite+pysqlite:///../SQL/alpha.db')
-engine = create_engine('sqlite+pysqlite:///'+sys.argv[2])
+engine = create_engine('sqlite+pysqlite:///../SQL/75b.db')
 
 # In[ ]:
 
@@ -93,8 +87,7 @@ ROOT.gROOT.ProcessLine(
 
 # In[ ]:
 
-#f = ROOT.TFile("../output.root")
-f = ROOT.TFile(sys.argv[1])
+f = ROOT.TFile("../output.root")
 tree = f.Get("tree")
 tb0 = tree.GetBranch("Pad")
 tb1 = tree.GetBranch("PSA")
@@ -124,7 +117,7 @@ for i in xrange(tb0.GetEntries()):
 
     for j in range(TB):
         setattr(RawADC, 't'+str(j), tbjcPadReg.RawAdc[j])
-    #session.add(RawADC)
+    session.add(RawADC)
 
     ADC = model.ADC()
     #ADC.ID = i
@@ -132,7 +125,7 @@ for i in xrange(tb0.GetEntries()):
     ADC.PadNum = tbjcPadReg.PadNum
     for j in range(TB):
         setattr(ADC, 't'+str(j), tbjcPadReg.Adc[j])
-    session.add(ADC)
+    #session.add(ADC)
 
     #session.flush()
     if i %10000 == 0:
@@ -152,7 +145,7 @@ for i in xrange(tb1.GetEntries()):
 
     for j in range(TB):
         setattr(PSA, 'mesh'+str(j), tbjcPSAReg.mesh[j])
-    session.add(PSA)
+    #session.add(PSA)
 
     #session.flush()
     if i %10000 == 0:
@@ -173,7 +166,7 @@ for i in xrange(tb2.GetEntries()):
     Hit.z = tbjcHitReg.z
     Hit.charge = tbjcHitReg.charge
 
-    session.add(Hit)
+    #session.add(Hit)
 
     #session.flush()
     if i %10000 == 0:
