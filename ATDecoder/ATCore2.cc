@@ -470,6 +470,7 @@ void ATCore2::ProcessLayeredFrame(GETLayeredFrame *layeredFrame)
         Int_t iAsad = frame -> GetAsadID();
 
         for (Int_t iAget = 0; iAget < 4; iAget++) {
+
             for (Int_t iCh = 0; iCh < 68; iCh++) {
 
                 std::vector<int> PadRef={iCobo,iAsad,iAget,iCh};
@@ -519,15 +520,38 @@ void ATCore2::ProcessBasicFrame(GETBasicFrame *basicFrame)
     Int_t iCobo = basicFrame -> GetCoboID();
     Int_t iAsad = basicFrame -> GetAsadID();
 
+    cout<<"asad:"<<iAsad<<endl;
+   // iAsad = 0;
+
     for (Int_t iAget = 0; iAget < 4; iAget++) {
+
+        int tbjcfnCh[4] = {11, 22, 45, 56};
+
+        for(int i=0; i<4; i++)
+        {
+
+                ATPad *pad = new ATPad(-tbjcfnCh[i]);
+                Int_t *rawadc = basicFrame -> GetSample(iAget, tbjcfnCh[i]);
+                for (Int_t iTb = 0; iTb < fNumTbs; iTb++)
+                {
+                    pad -> SetRawADC(iTb, rawadc[iTb]);
+                    pad -> SetADC(iTb, 0);
+                }
+                pad -> SetPedestalSubtracted(kTRUE);
+                fRawEventPtr -> SetPad(pad);
+        }
+
         for (Int_t iCh = 0; iCh < 68; iCh++) {
 
-            std::vector<int> PadRef={iCobo,iAsad,iAget,iCh};
+            //std::vector<int> PadRef={iCobo,iAsad,iAget,iCh};
+            std::vector<int> PadRef={iCobo,0,iAget,iCh};
             Int_t PadRefNum = fAtMapPtr->GetPadNum(PadRef);
+
             std::vector<Float_t> PadCenterCoord;
             PadCenterCoord.reserve(2);
             PadCenterCoord = fAtMapPtr->CalcPadCenter(PadRefNum);
 
+            PadRefNum += 255*iAsad;
             if(PadRefNum!=-1){
                 ATPad *pad = new ATPad(PadRefNum);
                 fPadArray->Insert(PadRefNum,static_cast<TObject*>(pad));

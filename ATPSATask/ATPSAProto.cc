@@ -124,12 +124,11 @@ ATPSAProto::Analyze(ATRawEvent *rawEvent, ATEvent *event)
 #pragma omp ordered
                     hitNum++;
 
-                    for (Int_t iTb = 0; iTb < fNumTbs; iTb++) mesh[iTb]+=floatADC[iTb];
-
                 }//Valid Threshold
 
             }// Peak loop
 
+            for (Int_t iTb = 0; iTb < fNumTbs; iTb++) mesh[iTb]+=floatADC[iTb];
 #pragma omp ordered
             PadMultiplicity.insert(std::pair<Int_t,Int_t>(PadNum,PadHitNum));
 
