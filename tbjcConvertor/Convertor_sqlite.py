@@ -40,20 +40,20 @@ session = orm.scoped_session(sm)
 
 # In[ ]:
 
-with open("../map/proto.map") as f:
-
-    for line in f:
-        padnum,padname,padx,pady,binnum = line.strip().split()
-        padnum,padname,padx,pady,binnum = int(padnum),padname,float(padx),float(pady),int(binnum)
-
-        PadMap = model.ProtoMap()
-        PadMap.PadNum = padnum
-        PadMap.PadName = padname
-        PadMap.PadX = padx
-        PadMap.PadY = pady
-        PadMap.BinNum = binnum
-        session.add(PadMap)
-    session.commit()
+#with open("../map/proto.map") as f:
+#
+#    for line in f:
+#        padnum,padname,padx,pady,binnum = line.strip().split()
+#        padnum,padname,padx,pady,binnum = int(padnum),padname,float(padx),float(pady),int(binnum)
+#
+#        PadMap = model.ProtoMap()
+#        PadMap.PadNum = padnum
+#        PadMap.PadName = padname
+#        PadMap.PadX = padx
+#        PadMap.PadY = pady
+#        PadMap.BinNum = binnum
+#        session.add(PadMap)
+#    session.commit()
 
 # In[ ]:
 
@@ -152,7 +152,7 @@ for i in xrange(tb1.GetEntries()):
 
     for j in range(TB):
         setattr(PSA, 'mesh'+str(j), tbjcPSAReg.mesh[j])
-    session.add(PSA)
+    #session.add(PSA)
 
     #session.flush()
     if i %10000 == 0:
@@ -173,7 +173,7 @@ for i in xrange(tb2.GetEntries()):
     Hit.z = tbjcHitReg.z
     Hit.charge = tbjcHitReg.charge
 
-    session.add(Hit)
+    #session.add(Hit)
 
     #session.flush()
     if i %10000 == 0:
