@@ -22,7 +22,7 @@ class DataProcessor(object):
         print "initialization will take some time"
         start_time = time.time()
         engine = create_engine('sqlite+pysqlite:///'+data_path)
-        ADCdf = pd.io.sql.read_sql("SELECT * FROM ADC limit 30000", engine)
+        ADCdf = pd.io.sql.read_sql("SELECT * FROM ADC", engine)
         end_time = time.time()
         print end_time-start_time
 
@@ -80,7 +80,10 @@ class DataProcessor(object):
         image2[(-Q2['PadPos'].values+150).astype(np.int), Q2['time'].values.astype(np.int)] =255
         image2[(Q4['PadPos'].values+150).astype(np.int), Q4['time'].values.astype(np.int)] =255
 
-        if np.sum(image1-image2)>0:
+        tmp = (image1-image2)
+        tmp[150-10:150+10,:] = 0
+        
+        if np.sum(tmp)>0:
             image = image1 
         else:
             image = image2
