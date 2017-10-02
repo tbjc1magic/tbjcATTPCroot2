@@ -24,13 +24,10 @@ class DataProcessor(object):
 
     def __init__(self,data_path,map_path):
         
-        ##### set single thread computation #########
-        cv2.setNumThreads(1)
-        
         print "initialization will take some time"
         start_time = time.time()
         engine = create_engine('sqlite+pysqlite:///'+data_path)
-        ADCdf = pd.io.sql.read_sql("SELECT * FROM ADC", engine)
+        ADCdf = pd.io.sql.read_sql("SELECT * FROM ADC limit 20000", engine)
         end_time = time.time()
         print end_time-start_time
 
@@ -192,7 +189,7 @@ def GetRange(pic,debug_mode=0, center_width = 12, quadrant_thresh=100, center_th
 
     points = TipFinder(pic_,debug_mode)
     xv,yv = points[points[:,0].argsort()][-1]
-    
+    return
     #### get fit from each of the quadrant ###
     fits = []
     for idx in range(2):
